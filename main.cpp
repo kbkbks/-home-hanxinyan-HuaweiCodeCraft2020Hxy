@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <sys/time.h>
 #include <chrono>
+#include <algorithm>
 
 using namespace std;
 
@@ -28,8 +29,8 @@ public:
     void parseInput()
     {
         //c风格FILE读文件，fscanf固定格式
-        //FILE * inFile = fopen("/data/test_data.txt", "r");
-        FILE * inFile = fopen("./3738/test_data.txt", "r");
+        FILE * inFile = fopen("/data/test_data.txt", "r");
+        //FILE * inFile = fopen("./3738/test_data.txt", "r");
         //FILE * inFile = fopen("./38252/test_data.txt", "r");
         //FILE * inFile = fopen("./58284/test_data.txt", "r");
         //FILE * inFile = fopen("./77409/test_data.txt", "r");
@@ -69,6 +70,11 @@ public:
                 }
             }
         }
+
+        for(auto iter = AdjacencyGraph.begin(); iter != AdjacencyGraph.end(); ++iter)
+        {
+            sort(iter->second.begin(), iter->second.end());
+        }
     }
 
     void slove()
@@ -104,8 +110,8 @@ public:
 
     void save()
     {
-        ofstream outFile("./projects/student/result.txt");
-        //ofstream outFile("/projects/student/result.txt");
+        //ofstream outFile("./projects/student/result.txt");
+        ofstream outFile("/projects/student/result.txt");
         outFile << result[3].size() + result[4].size() + result[5].size() + result[6].size() + result[7].size() << endl;
         for (int i = 3; i <= 7; ++i)
         {
