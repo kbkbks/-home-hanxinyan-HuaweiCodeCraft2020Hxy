@@ -7,6 +7,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <sys/time.h>
 #include <chrono>
 
@@ -27,10 +28,15 @@ public:
     void parseInput()
     {
         //c风格FILE读文件，fscanf固定格式
-        FILE * inFile = fopen("/data/test_data.txt", "r");
+        //FILE * inFile = fopen("/data/test_data.txt", "r");
+        FILE * inFile = fopen("./3738/test_data.txt", "r");
+        //FILE * inFile = fopen("./38252/test_data.txt", "r");
+        //FILE * inFile = fopen("./58284/test_data.txt", "r");
+        //FILE * inFile = fopen("./77409/test_data.txt", "r");
+        //FILE * inFile = fopen("./1004812/test_data.txt", "r");
         unsigned int u, v, w;   //本端账号u，对端账号v，转账金额w
         TransferNum = 0;
-        while(fscanf(inFile,"%d,%d,%d", &u, &v, &w) != EOF)
+        while(fscanf(inFile,"%u,%u,%u", &u, &v, &w) != EOF)
         {
             inputs.push_back(u);
             inputs.push_back(v);
@@ -44,29 +50,39 @@ public:
         {
             if(AdjacencyGraph.find(inputs[i]) == AdjacencyGraph.end())
             {
-                AdjacencyGraph[inputs[i]] = vector<unsigned int>{inputs[i+1]};
+                AdjacencyGraph.insert(pair<unsigned int, vector<unsigned int>>(inputs[i], vector<unsigned int>{inputs[i+1]}));
+                if(AllNode.find(inputs[i]) == AllNode.end())
+                {
+                    AllNode.insert(pair<unsigned int, bool>(inputs[i], false));
+                }
+                if(AllNode.find(inputs[i+1]) == AllNode.end())
+                {
+                    AllNode.insert(pair<unsigned int, bool>(inputs[i+1], false));
+                }
             }
             else
             {
                 AdjacencyGraph.at(inputs[i]).push_back(inputs[i+1]);
+                if(AllNode.find(inputs[i+1]) == AllNode.end())
+                {
+                    AllNode.insert(pair<unsigned int, bool>(inputs[i+1], false));
+                }
             }
         }
     }
 
     void slove()
     {
-        int nodenum = AdjacencyGraph.size();
         vector<unsigned int> path;
-        vis = vector<bool>(nodenum, false);
         for(auto iter = AdjacencyGraph.begin(); iter != AdjacencyGraph.end(); ++iter)
         {
             dfs(iter->first, iter->first, 1, path);
         }
     }
 
-    void dfs(unsigned int head, unsigned int current, int depth, vector<unsigned int> path)
+    void dfs(unsigned int head, unsigned int current, int depth, vector<unsigned int> &path)
     {
-        vis[current] = true;
+        AllNode[current] = true;
         path.push_back(current);
         if(AdjacencyGraph.find(current) != AdjacencyGraph.end())
         {
@@ -76,19 +92,20 @@ public:
                 {
                     result[depth].push_back(path);
                 }
-                if(depth < 7 && !vis[v] && v > head)
+                if(depth < 7 && !AllNode[v] && v > head)
                 {
                     dfs(head, v, depth + 1, path);
                 }
             }
         }
-        vis[current] = false;
+        AllNode[current] = false;
         path.pop_back();
     }
 
     void save()
     {
-        ofstream outFile("/projects/student/result.txt");
+        ofstream outFile("./projects/student/result.txt");
+        //ofstream outFile("/projects/student/result.txt");
         outFile << result[3].size() + result[4].size() + result[5].size() + result[6].size() + result[7].size() << endl;
         for (int i = 3; i <= 7; ++i)
         {
@@ -108,13 +125,13 @@ public:
     map<unsigned int, vector<unsigned int>> AdjacencyGraph;
     int TransferNum;
     vector<unsigned int> inputs;
-    vector<bool> vis;
     vector<vector<unsigned int>> result[8];
+    unordered_map<unsigned int, bool> AllNode;
 };
 
 int main()
 {
-    //时间戳
+    ////时间戳
     //std::time_t timestampstart;
     //std::time_t timestampstop;
 
