@@ -1,3 +1,6 @@
+/*
+# Copyright (c) 2020 Xinyan Han. All rights reserved.
+*/
 #include <iostream>
 #include <cstdio>
 #include <sys/types.h>
@@ -14,9 +17,8 @@
 
 using namespace std;
 
-//获得时间当前时间戳（毫秒级）
-time_t getTimeStamp()
-{
+// 获得时间当前时间戳（毫秒级）
+time_t getTimeStamp() {
     std::chrono::time_point<std::chrono::system_clock,std::chrono::milliseconds> tp = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());//获取当前时间点
     std::time_t timestamp =  tp.time_since_epoch().count(); //计算距离1970-1-1,00:00的时间长度
     return timestamp;
@@ -29,12 +31,13 @@ public:
     void parseInput()
     {
         //c风格FILE读文件，fscanf固定格式
-        FILE * inFile = fopen("/data/test_data.txt", "r");
+        //FILE * inFile = fopen("/data/test_data.txt", "r");
         //FILE * inFile = fopen("./3738/test_data.txt", "r");
         //FILE * inFile = fopen("./38252/test_data.txt", "r");
         //FILE * inFile = fopen("./58284/test_data.txt", "r");
         //FILE * inFile = fopen("./77409/test_data.txt", "r");
         //FILE * inFile = fopen("./1004812/test_data.txt", "r");
+        FILE * inFile = fopen("./2755223/test_data.txt", "r");
         unsigned int u, v, w;   //本端账号u，对端账号v，转账金额w
         TransferNum = 0;
         while(fscanf(inFile,"%u,%u,%u", &u, &v, &w) != EOF)
@@ -110,8 +113,8 @@ public:
 
     void save()
     {
-        //ofstream outFile("./projects/student/result.txt");
-        ofstream outFile("/projects/student/result.txt");
+        ofstream outFile("./projects/student/result.txt");
+        //ofstream outFile("/projects/student/result.txt");
         outFile << result[3].size() + result[4].size() + result[5].size() + result[6].size() + result[7].size() << endl;
         for (int i = 3; i <= 7; ++i)
         {
@@ -138,17 +141,17 @@ public:
 int main()
 {
     ////时间戳
-    //std::time_t timestampstart;
-    //std::time_t timestampstop;
+    std::time_t timestampstart;
+    std::time_t timestampstop;
 
-    //timestampstart = getTimeStamp();
+    timestampstart = getTimeStamp();
     Solution solution;
     solution.parseInput();
     solution.buildAdjacencyGraph();
     solution.slove();
     solution.save();
-    //timestampstop = getTimeStamp();
-    //cout << "程序运行时间：" << timestampstop - timestampstart << endl;
+    timestampstop = getTimeStamp();
+    cout << "程序运行时间：" << timestampstop - timestampstart << endl;
 
     return 0;
 }

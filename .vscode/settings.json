@@ -36,6 +36,17 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "fstream": "cpp",
-        "chrono": "cpp"
-    }
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "unordered_map": "cpp",
+        "map": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp"
+    },
+    "cpplint.lineLength": 150,
+    "cpplint.filters": [
+        "-build/include_subdir",
+        "-build/namespaces"
+    ]
 }
