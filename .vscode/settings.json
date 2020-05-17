@@ -47,6 +47,7 @@
     "cpplint.lineLength": 150,
     "cpplint.filters": [
         "-build/include_subdir",
-        "-build/namespaces"
+        "-build/namespaces",
+        "-build/c++11"
     ]
 }
